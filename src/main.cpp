@@ -5,6 +5,7 @@ int main(){
     PointerUse *p = new PointerUse();
     p->showPointerUse();
     delete p;
+    p->showPointerUse();
 }
 
 

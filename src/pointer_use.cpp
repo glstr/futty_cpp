@@ -4,10 +4,11 @@
 #include <sstream>
 using namespace std;
 
-PointerUse::PointerUse(void){
+PointerUse::PointerUse(void): _num(1){
 }
 
 PointerUse::~PointerUse(void){
+    _num = 2;
 }
 
 void PointerUse::showPointerUse(){
@@ -29,6 +30,7 @@ void PointerUse::showPointerUse(){
     c[0] = 'l';
     void* e = (void*)c;
     cout << e << endl;
-
+    cout << _num << endl;
 }
+
 

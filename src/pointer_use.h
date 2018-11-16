@@ -6,4 +6,6 @@ public:
     virtual ~PointerUse(void);
 
     void showPointerUse();
+private:
+    int _num;
 };
