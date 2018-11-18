@@ -1,3 +1,5 @@
+#pragma once
+#include <map>
 #include <string>
 #include <vector>
 
@@ -20,6 +22,23 @@ struct PointXYZ{
     long pitch;
     long yaw;
     long time;
+};
+
+enum FILE_MODE{
+        XYZ = 0,
+        BLS = 1,
+        LAS = 2,
+    };
+
+class PointCloud{
+public:
+    PointCloud(void);
+    virtual ~PointCloud(void);
+
+    bool load(const std::string& file_path);
+    
+private:
+    std::vector<PointXYZ> _pcloud;
 };
 
 
@@ -49,7 +68,20 @@ public:
     GridIndex(const std::string& file_path);
     virtual ~GridIndex(void);
 
+    
     bool load();
+    void addPointCloud(const std::string& file_path, FILE_MODE mode=BLS);
+
+    void setRegion(const PointXY& max, const PointXY& min);
+    void getRegion();
+
+    void setRegionSize(P_SIZE_INT m, P_SIZE_INT n);
+    void getRegionSize();
+
+    void setPrecision(double precision);
+    double getPrecision();
+private:
+    void getGridId();
 private:
     //区域范围
     PointXY _max;
@@ -65,6 +97,37 @@ private:
     std::string _data_path;
     //网格数据
     std::vector<PGrid> _grids;
+};
+
+//数据落盘
+//维护grid_id到block_id的映射关系
+//数据文件的组织方式,block_id对应数据的信息
+class PDataStore{
+public:
+    PDataStore(void);
+    virtual ~PDataStore(void);
+
+    struct BlockInfo {
+        bool enable;
+        P_SIZE_INT size;
+        P_SIZE_INT capacity; 
+    };
+    void load(const std::string& file_path, const std::string& data_path);
+
+    bool add(P_ID_INT grid_id, const std::vector<PointXYZ>& pcloud);
+    void get(P_ID_INT grid_id, std::vector<PointXYZ>& pcloud);
+    bool del(P_ID_INT grid_id);
+    bool update(P_ID_INT grid_id, const std::vector<PointXYZ>& pcloud);
+private:
+    bool write();
+private:
+    std::string file_path;
+    P_SIZE_INT blocks_num;
+    P_SIZE_INT block_size;
+    std::map< P_ID_INT, std::vector<P_ID_INT> > grid_to_block;
+    std::vector<BlockInfo> blocks_info;
+
+    FILE* _f;
 };
 
 
