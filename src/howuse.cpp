@@ -133,3 +133,35 @@ void HowUser::showSize() {
     char d[100];
     printf("array:%lu\n", sizeof(d));
 }
+
+void HowUser::showReadString() {
+    std::string result;
+    FILE* fp = fopen("temp.txt", "r");
+    while (!feof(fp)) {
+        char temp[100] = {};        
+        if (fgets(temp, 100, fp) != NULL) {
+            result.append(temp);
+        } else{
+            break;
+        }
+    }
+    fclose(fp);
+    std::size_t size = result.length();
+    char* data = new char[size];
+    memcpy(data, result.data(), result.length());
+    printf("%s", data);
+}
+
+void HowUser::showStringLength() {
+    std::string str("hello world");
+    printf("string len:%lu\n", str.length());
+    printf("char length:%lu\n", strlen(str.c_str()));
+    //char* temp = new char(11);
+    char temp[12] = {};
+    memcpy(temp, str.data(), 12);
+    printf("temp length:%lu\n", strlen(temp));
+    printf("%c\n", temp[10]);
+    printf("%s\n", temp);
+    char test[2] = {'h', 'w'};
+    printf("%s\n", test);
+}

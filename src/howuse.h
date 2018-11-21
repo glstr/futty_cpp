@@ -19,4 +19,7 @@ public:
     void showSize();
 
     //char & string
+    //read arbitrarily length string
+    void showReadString();
+    void showStringLength();
 };
