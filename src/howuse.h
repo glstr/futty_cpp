@@ -22,4 +22,7 @@ public:
     //read arbitrarily length string
     void showReadString();
     void showStringLength();
+
+    //asm
+    void showAsm();
 };

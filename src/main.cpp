@@ -6,7 +6,9 @@ int main(){
     HowUser* h = new HowUser;
     //h->showUsageOfProto();
     //h->showUsageRapidjson();
-    h->showSize();
+    //h->showSize();
+    //h->showStringLength();
+    h->showAsm();
     delete h;
     h = NULL;
 }

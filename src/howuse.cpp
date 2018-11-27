@@ -165,3 +165,7 @@ void HowUser::showStringLength() {
     char test[2] = {'h', 'w'};
     printf("%s\n", test);
 }
+
+void HowUser::showAsm() {
+    //__asm__("movl %esp, orig_stack_pointer");    
+}

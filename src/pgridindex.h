@@ -41,13 +41,21 @@ private:
     std::vector<PointXYZ> _pcloud;
 };
 
-
+class PDataStore;
 class PGrid{
 public:
-    PGrid(P_ID_INT id, const PointXY& max, const PointXY& min);
+    PGrid(P_ID_INT id, const PointXY& max, const PointXY& min, 
+            P_SIZE_INT flush_num, PDataStore* data_store);
     virtual ~PGrid(void);
 
     bool addPoint(const PointXYZ& point);
+
+    P_SIZE_INT getFlushNum(){
+        return _flush_num;
+    }
+    void setFlushNum(P_SIZE_INT flush_num){
+        _flush_num = flush_num;
+    }
 private:
     P_ID_INT flush();
 private:
@@ -58,8 +66,8 @@ private:
     P_SIZE_INT _num;
     P_SIZE_INT _temp_num;
     P_SIZE_INT _flush_num;
-    std::vector<P_ID_INT> _block_ids;
     std::vector<PointXYZ> _temp;
+    PDataStore *_data_store;
 };
 
 
