@@ -22,7 +22,29 @@ public:
     //read arbitrarily length string
     void showReadString();
     void showStringLength();
+    void stringOperation();
+
+    //overloaded operator
+    operator int() const {
+        return example;
+    }
+
+    HowUser& operator=(const HowUser& t){
+        example = t.example;
+        return *this;
+    }
+
+    HowUser operator+(const HowUser& t){
+        HowUser new_user;
+        new_user.example = example + t.example;
+        return new_user;
+    }
 
     //asm
     void showAsm();
+public:
+    static int version;
+private:
+    //const int a; 
+    int example;
 };

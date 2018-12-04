@@ -112,10 +112,11 @@ private:
 //数据文件的组织方式,block_id对应数据的信息
 class PDataStore{
 public:
-    PDataStore(void);
+    PDataStore(const std::string& file_path, P_SIZE_INT block_size);
     virtual ~PDataStore(void);
 
     struct BlockInfo {
+        explicit BlockInfo() : size(0), capacity(0), enable(false) {}
         bool enable;
         P_SIZE_INT size;
         P_SIZE_INT capacity; 
@@ -129,11 +130,11 @@ public:
 private:
     bool write();
 private:
-    std::string file_path;
-    P_SIZE_INT blocks_num;
-    P_SIZE_INT block_size;
-    std::map< P_ID_INT, std::vector<P_ID_INT> > grid_to_block;
-    std::vector<BlockInfo> blocks_info;
+    std::string _file_path;
+    P_SIZE_INT _blocks_num;
+    P_SIZE_INT _block_size;
+    std::map< P_ID_INT, std::vector<P_ID_INT> > _grid_to_block;
+    std::vector<BlockInfo> _blocks_info;
 
     FILE* _f;
 };

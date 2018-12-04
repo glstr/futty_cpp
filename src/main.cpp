@@ -8,7 +8,13 @@ int main(){
     //h->showUsageRapidjson();
     //h->showSize();
     //h->showStringLength();
-    h->showAsm();
+    h->stringOperation();
+    int a = *h;
+    HowUser l;
+    l = l + *h;
+    int b = l;
+    cout << a << endl;
+    cout << b << endl;
     delete h;
     h = NULL;
 }

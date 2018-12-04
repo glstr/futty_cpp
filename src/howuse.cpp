@@ -12,7 +12,10 @@
 using namespace std;
 using namespace rapidjson;
 
-HowUser::HowUser(void) {
+int HowUser::version = 1;
+
+HowUser::HowUser(void) : 
+    example(100) {
 }
 
 HowUser::~HowUser(void) {
@@ -150,6 +153,7 @@ void HowUser::showReadString() {
     char* data = new char[size];
     memcpy(data, result.data(), result.length());
     printf("%s", data);
+    delete []data;
 }
 
 void HowUser::showStringLength() {
@@ -164,6 +168,14 @@ void HowUser::showStringLength() {
     printf("%s\n", temp);
     char test[2] = {'h', 'w'};
     printf("%s\n", test);
+}
+
+void HowUser::stringOperation() {
+    std::string str("hello world");
+    std::size_t pos = str.find_first_not_of("h");
+    if (pos != std::string::npos) {
+        cout << str[pos] << endl;        
+    }
 }
 
 void HowUser::showAsm() {

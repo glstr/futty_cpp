@@ -70,7 +70,9 @@ void GridIndex::addPointCloud(const std::string& file_path, FILE_MODE mode){
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-PDataStore::PDataStore(void){
+PDataStore::PDataStore(const std::string& file_path, P_SIZE_INT block_size) 
+    : _file_path(file_path),
+    _block_size(block_size){
 }
 
 PDataStore::~PDataStore(void){
