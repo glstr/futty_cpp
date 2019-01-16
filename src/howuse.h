@@ -1,5 +1,9 @@
 #pragma once
 
+#include <iostream>
+
+#include "rate_limiter.h"
+
 class HowUser {
 public:
     HowUser(void);
@@ -34,17 +38,42 @@ public:
         return *this;
     }
 
-    HowUser operator+(const HowUser& t){
-        HowUser new_user;
-        new_user.example = example + t.example;
-        return new_user;
-    }
+    //HowUser operator+(const HowUser& t){
+    //    HowUser new_user;
+    //    new_user.example = example + t.example;
+    //    return new_user;
+    //}
 
     //asm
     void showAsm();
+
+    //thread
+    void thread_example();  
+
+    //ratelimit
+    void ratelimit();
+    void rate_up();
+    void statistic();        
+
 public:
     static int version;
 private:
+    static void print_version(); 
+    static void modify_version(int n);
+    static void run(void* arg) {
+        HowUser* how_user = (HowUser*)arg;
+        how_user->rate_up();
+    }
+    static void run_static(void* arg) {
+        HowUser* how_user = (HowUser*)arg;
+        how_user->statistic();
+    }
+private:
+    static std::chrono::time_point<std::chrono::system_clock> _last_time;
     //const int a; 
     int example;
+    std::atomic<int32_t> _qps;
+    std::atomic<int32_t> _request;
+    int32_t _last_num;
+    snow::RateLimiter _rate_limiter;
 };

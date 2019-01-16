@@ -1,21 +1,35 @@
 #include "howuse.h"
 //#include "address.pb.h"
 //
+//
+#include <chrono>
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <thread>
+#include <vector>
 
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-#include <iostream>
-#include <stdio.h>
-#include <string>
 using namespace std;
 using namespace rapidjson;
 
+using Clock = std::chrono::high_resolution_clock;
+using Ms = std::chrono::milliseconds;
+using Sec = std::chrono::seconds;
+
+template<class Duration>
+using TimePoint = std::chrono::time_point<Clock, Duration>;
+
 int HowUser::version = 1;
+std::chrono::time_point<std::chrono::system_clock> HowUser::_last_time =
+    std::chrono::system_clock::now();
 
 HowUser::HowUser(void) : 
-    example(100) {
+    example(100),
+    _rate_limiter(500, 1000){
 }
 
 HowUser::~HowUser(void) {
@@ -180,4 +194,64 @@ void HowUser::stringOperation() {
 
 void HowUser::showAsm() {
     //__asm__("movl %esp, orig_stack_pointer");    
+}
+
+void HowUser::thread_example() {
+    int n = 10;
+    std::thread t1(modify_version, n);    
+    std::thread t2(print_version);
+    t1.join();
+    t2.join();
+}
+
+void HowUser::modify_version(int n) {
+    for (int i = 0; i <= n; ++i) {
+        version += i;
+        this_thread::sleep_for(chrono::seconds(5));
+    }
+}
+
+void HowUser::print_version() {
+    while (true) {
+        cout << version << endl;
+        this_thread::sleep_for(chrono::milliseconds(500));
+    }
+}
+
+void HowUser::ratelimit() {
+    std::thread t2(run_static, this);
+    std::thread t1(run, this);
+    std::thread t3(run, this);
+    std::vector<std::thread*> t_v;
+    for (int i = 0; i < 1000; ++i) {
+        std::thread* t = new thread(run, this);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        t_v.push_back(t);    
+    }
+    t2.join();
+}
+
+void HowUser::statistic() {
+    while(true) {
+        auto current = _request.load();
+        auto rate = current - _last_num;
+        _last_num = current;
+        auto now = std::chrono::system_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(now-_last_time); 
+        _last_time = now;
+        cout << "rate:" << rate << endl;
+        cout << "statics:" << duration.count() << endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+}
+
+void HowUser::rate_up() {
+    while(true) {
+        if (_rate_limiter.can_use()) {
+            _request++;
+        } else {
+            cout << "hit max" << endl;
+        } 
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
 }

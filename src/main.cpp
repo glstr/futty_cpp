@@ -1,4 +1,4 @@
-#include "howuse.cpp"
+#include "howuse.h"
 #include "pointer_use.h"
 #include <stdlib.h>
 
@@ -8,16 +8,9 @@ int main(){
     //h->showUsageRapidjson();
     //h->showSize();
     //h->showStringLength();
-    h->stringOperation();
-    int a = *h;
-    HowUser l;
-    l = l + *h;
-    int b = l;
-    cout << a << endl;
-    cout << b << endl;
-    delete h;
-    h = NULL;
-}
+    //h->thread_example();
+    h->ratelimit();
+   }
 
 
 
