@@ -3,11 +3,16 @@
 #include <iostream>
 
 #include "rate_limiter.h"
+#include "cgal_explorer.h"
 
+namespace snow {
 class HowUser {
 public:
     HowUser(void);
     virtual ~HowUser(void);
+    //basic
+    void show_typedef();
+
     //proto
     void showUsageOfProto();
 
@@ -55,6 +60,18 @@ public:
     void rate_up();
     void statistic();        
 
+    //chrono & time
+    void get_ts();
+    void get_duration();
+    void get_date();
+
+    //stream
+    void show_ifstream();
+    
+    //cgal
+    void cgal_test();
+
+    //mutex
 public:
     static int version;
 private:
@@ -75,5 +92,8 @@ private:
     std::atomic<int32_t> _qps;
     std::atomic<int32_t> _request;
     int32_t _last_num;
-    snow::RateLimiter _rate_limiter;
+    RateLimiter _rate_limiter;
+    CgalExplorer _cgal;    
 };
+
+} //end namespace snow;

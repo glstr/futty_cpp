@@ -3,6 +3,8 @@
 //
 //
 #include <chrono>
+#include <ctime>
+#include <fstream>
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -13,9 +15,11 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
+#include "utils.h"
+
 using namespace std;
 using namespace rapidjson;
-
+namespace snow {
 using Clock = std::chrono::high_resolution_clock;
 using Ms = std::chrono::milliseconds;
 using Sec = std::chrono::seconds;
@@ -33,6 +37,10 @@ HowUser::HowUser(void) :
 }
 
 HowUser::~HowUser(void) {
+}
+
+void HowUser::show_typedef() {
+    t_add_more();
 }
 
 void HowUser::showUsageOfProto() {
@@ -255,3 +263,49 @@ void HowUser::rate_up() {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
+
+//chrono
+void HowUser::get_ts() {
+    auto t = std::chrono::system_clock::now().time_since_epoch();
+    auto ts_s = std::chrono::duration_cast<std::chrono::seconds>(t).count();
+    auto ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t).count();
+    auto ts_us = std::chrono::duration_cast<std::chrono::microseconds>(t).count();
+    cout << "ts:" << ts_s << endl;
+    cout << "ts_ms:" << ts_ms << endl;
+    cout << "ts_us:" << ts_us << endl;
+}
+
+void HowUser::get_duration() {
+    auto start = std::chrono::system_clock::now();    
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    auto end = std::chrono::system_clock::now();
+    auto duration = 
+        std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    cout << "duration:" << duration << endl;
+}
+
+void HowUser::get_date() {
+    std::time_t result = std::time(nullptr);
+    std::cout << std::asctime(std::localtime(&result))
+              << result << " seconds since the Epoch\n";
+}
+
+//stream
+void HowUser::show_ifstream() {
+    const char* file_name = "/Users/pengbaojiang/pengbaojiang/code/cpp_src/futty_cpp/build/src/test.off";
+    std::ifstream stream(file_name);
+
+    char b[255];
+    stream.getline(b, 100);
+    stream.getline(b, 200);
+    cout << b << endl;
+}
+
+//cgal
+void HowUser::cgal_test() {
+    _cgal.simple_test();
+}
+
+//mutex
+
+} //end namespace snow;

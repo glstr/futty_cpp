@@ -37,6 +37,7 @@ bool PGrid::addPoint(const PointXYZ& point){
     _temp.push_back(point);
     ++_temp_num;
     ++_num;        
+    return true;
 }
 
 P_ID_INT PGrid::flush(){
@@ -57,6 +58,7 @@ GridIndex::~GridIndex(void){
 }
 
 bool GridIndex::load(){
+    return true;
 }
 
 void GridIndex::addPointCloud(const std::string& file_path, FILE_MODE mode){
@@ -89,12 +91,15 @@ void PDataStore::get(P_ID_INT grid_id, std::vector<PointXYZ>& pcloud){
 }
 
 bool PDataStore::del(P_ID_INT grid_id){
+    return true;
 }
 
 bool PDataStore::update(P_ID_INT, const std::vector<PointXYZ>& pcloud){
+    return true;
 }
 
 bool PDataStore::write(){
+    return true;
 }
 
 
