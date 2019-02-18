@@ -72,6 +72,9 @@ public:
     void cgal_test();
 
     //mutex
+    
+    //namespace
+    void namespace_test();
 public:
     static int version;
 private:

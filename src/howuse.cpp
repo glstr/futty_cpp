@@ -16,6 +16,7 @@
 #include "rapidjson/stringbuffer.h"
 
 #include "utils.h"
+#include "namespace_use.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -307,5 +308,12 @@ void HowUser::cgal_test() {
 }
 
 //mutex
+
+//namespace
+void HowUser::namespace_test() {
+    snow::Hello h;
+    snower::Hello h_;
+    h = h_;
+}
 
 } //end namespace snow;
