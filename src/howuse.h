@@ -73,8 +73,6 @@ public:
 
     //mutex
     
-    //namespace
-    void namespace_test();
 public:
     static int version;
 private:

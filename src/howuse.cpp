@@ -309,11 +309,5 @@ void HowUser::cgal_test() {
 
 //mutex
 
-//namespace
-void HowUser::namespace_test() {
-    snow::Hello h;
-    snower::Hello h_;
-    h = h_;
-}
 
 } //end namespace snow;
