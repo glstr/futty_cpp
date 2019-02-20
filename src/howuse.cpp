@@ -6,9 +6,11 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <queue>
 #include <stdio.h>
 #include <string>
 #include <thread>
+#include <utility>
 #include <vector>
 
 #include "rapidjson/document.h"
@@ -40,10 +42,90 @@ HowUser::HowUser(void) :
 HowUser::~HowUser(void) {
 }
 
+/*
+ * basic
+ */
 void HowUser::show_typedef() {
     t_add_more();
 }
 
+void HowUser::show_type() {
+    int a;
+    decltype(a) b = 2.0;
+    cout << b << endl;
+}
+
+void HowUser::show_for() {
+    vector<int> nums {1, 2, 4, 5};        
+    for(const auto& v: nums) {
+        cout << v << endl;
+    }
+}
+
+/*
+ * container
+ */
+void HowUser::show_pair() {
+    pair<int, float> p(21, 2.3);    
+    cout << p.first << ", " << p.second;
+}
+
+void HowUser::show_queue() {
+    queue<int> d;
+    d.push(2);
+    d.push(3);
+    while(!d.empty()) {
+        cout << d.front() << endl;
+        d.pop();
+    }
+}
+
+void HowUser::show_map() {
+    //init      
+    map<string, int> students {
+        {"Jim", 1},
+        {"Tom", 2},
+        {"Lucy", 3},
+    };  
+
+    //get value 
+    cout << students["Jim"] << endl;
+    
+    //iter
+    map<string, int>::iterator it;
+    it = students.begin();
+    for (; it != students.end(); ++it) {
+        cout << it->first << it->second << endl;
+    }
+
+    //erase   
+    --it;
+    students.erase(it);    
+    print_map<map<string, int>>(students);
+
+    //swap
+    cout << "swap" << endl;
+    map<string, int> new_students {
+        {"Lily", 2},
+        {"LiLei", 3},
+        {"HanMei", 4},
+    };
+
+    new_students.swap(students);
+    print_map(students);
+    print_map(new_students);
+}
+
+template<typename Map>
+void HowUser::print_map(Map& m) {
+    for(auto& p: m) {
+        cout << p.first << p.second << endl;
+    }    
+}
+
+/*
+ * proto
+ */
 void HowUser::showUsageOfProto() {
     //::futty::Person person;
     //person.set_name("July");
@@ -308,6 +390,11 @@ void HowUser::cgal_test() {
 }
 
 //mutex
+//workersgroup
+void HowUser::show_wg() {
+    Task task(2, 3);
+    cout << task() << endl; 
+}
 
 
 } //end namespace snow;

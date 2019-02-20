@@ -1,9 +1,11 @@
 #pragma once
 
 #include <iostream>
+#include <map>
 
-#include "rate_limiter.h"
 #include "cgal_explorer.h"
+#include "rate_limiter.h"
+#include "workers_group.h"
 
 namespace snow {
 class HowUser {
@@ -12,6 +14,17 @@ public:
     virtual ~HowUser(void);
     //basic
     void show_typedef();
+    void show_type();    
+    void show_for();
+
+    //contain
+    void show_pair();
+
+    void show_queue();
+     
+    void show_map();
+    template<typename Map>
+    void print_map(Map& m);
 
     //proto
     void showUsageOfProto();
@@ -72,6 +85,9 @@ public:
     void cgal_test();
 
     //mutex
+    //
+    //workersgroup
+    void show_wg();
     
 public:
     static int version;
