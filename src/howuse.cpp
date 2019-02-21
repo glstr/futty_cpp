@@ -3,6 +3,7 @@
 //
 //
 #include <chrono>
+#include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iostream>
@@ -392,8 +393,21 @@ void HowUser::cgal_test() {
 //mutex
 //workersgroup
 void HowUser::show_wg() {
-    Task task(2, 3);
-    cout << task() << endl; 
+    std::vector<Task> tasks;
+    for (int i = 0; i < 10; ++i) {
+        Task task(std::rand(), std::rand());
+        tasks.push_back(task); 
+    }
+
+    WorkersGroup wg(2);
+    wg.start();
+    while(true) {
+        Task task(std::rand(), std::rand());
+        wg.post(std::move(task));
+        //std::chrono::milliseconds ms{10};
+        //std::this_thread::sleep_for(ms);
+        cout << "post" << endl;
+    }
 }
 
 
