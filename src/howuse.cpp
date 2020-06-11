@@ -20,6 +20,7 @@
 using namespace std;
 using namespace rapidjson;
 namespace snow {
+
 using Clock = std::chrono::high_resolution_clock;
 using Ms = std::chrono::milliseconds;
 using Sec = std::chrono::seconds;
@@ -171,7 +172,7 @@ void HowUser::showReadAndWriteV1() {
     char s[100];
     int a;
     FILE *fp_in = fopen("test.txt", "r");
-    fscanf(fp_in, "%s, %d", s, &a);
+    int n = fscanf(fp_in, "%s, %d", s, &a);
     printf("%s %d", s, a);
     fclose(fp_in);
 }
@@ -180,7 +181,7 @@ void HowUser::showReadAndWriteV2() {
     FILE* fp = fopen("test.txt", "r");
     char s[100];
     int a;
-    fgets(s, 100, fp);
+    char* c = fgets(s, 100, fp);
     printf("%s", s);
     fclose(fp);
 }
@@ -215,17 +216,18 @@ void HowUser::showReadAndWriteV3() {
     char file[100];
     double pose_in[6];
     FILE *fp_in = fopen("test.conf", "r");
-    fgets(file, 100, fp_in);
+    char* c = fgets(file, 100, fp_in);
     //erase '\n' in file_path
     std::string str(file);
     std::size_t len = str.length();
     str.erase(len-1, 1);
     //get pose
+    int n = 0;
     for (int i = 0; i < 6; i++) {
         if (i == 5) {
-            fscanf(fp_in, "%lf ", pose + i);
+            n = fscanf(fp_in, "%lf ", pose + i);
         } else {
-            fscanf(fp_in, "%lf\n", pose + i);
+            n = fscanf(fp_in, "%lf\n", pose + i);
         }
     }
     printf("file_path:%s, pose:%lf\n", str.c_str(), pose[0]);
@@ -235,19 +237,19 @@ void HowUser::showSize() {
     //cpp data type
     //num char bool ptr
     bool* a = new bool[12];
-    printf("bool:%lu, array:%lu\n", sizeof(bool), sizeof(a));
+    printf("bool:%d, array:%d\n", sizeof(bool), sizeof(a));
     delete []a;
     
     double* b = new double[13];
-    printf("double:%lu, array:%lu\n", sizeof(double), sizeof(b));
+    printf("double:%d, array:%d\n", sizeof(double), sizeof(b));
     delete []b;
 
     char* c = new char[100];
-    printf("char:%lu, array:%lu\n", sizeof(char), sizeof(c));
+    printf("char:%d, array:%d\n", sizeof(char), sizeof(c));
     delete []c;
 
     char d[100];
-    printf("array:%lu\n", sizeof(d));
+    printf("array:%d\n", sizeof(d));
 }
 
 void HowUser::showReadString() {
@@ -271,12 +273,12 @@ void HowUser::showReadString() {
 
 void HowUser::showStringLength() {
     std::string str("hello world");
-    printf("string len:%lu\n", str.length());
-    printf("char length:%lu\n", strlen(str.c_str()));
+    printf("string len:%d\n", str.length());
+    printf("char length:%d\n", strlen(str.c_str()));
     //char* temp = new char(11);
     char temp[12] = {};
     memcpy(temp, str.data(), 12);
-    printf("temp length:%lu\n", strlen(temp));
+    printf("temp length:%d\n", strlen(temp));
     printf("%c\n", temp[10]);
     printf("%s\n", temp);
     char test[2] = {'h', 'w'};
