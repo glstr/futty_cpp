@@ -2,6 +2,10 @@
 #include "boost_use.h"
 
 #include <iostream>
+#include <list>
+
+#include <boost/algorithm/minmax.hpp>
+#include <boost/algorithm/minmax_element.hpp>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -24,6 +28,15 @@ void BoostUse::show_bind() {
 
 int BoostUse::_add(int a, int b) {
     return a + b;
+}
+
+void BoostUse::show_minmax() {
+    std::list<float> buffer_data = {0.1, 1.1, 2.3, 4.5, 7.9, 8.5};       
+    typedef list<float>::const_iterator iterator;
+    std::pair<iterator, iterator> result2 =
+        boost::minmax_element(buffer_data.begin(), buffer_data.end());
+    cout << "the min:" << *(result2.first) << ","
+        << "the max:" << *(result2.second);
 }
 
 } //end namespace snow

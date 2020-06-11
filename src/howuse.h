@@ -3,6 +3,10 @@
 #include <iostream>
 #include <map>
 
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 #include "cgal_explorer.h"
 #include "rate_limiter.h"
 #include "workers_group.h"
@@ -31,6 +35,7 @@ public:
 
     //rapidjson
     void showUsageRapidjson();
+    void rapidJsonHelperUsage();
     
     //io 
     void showReadAndWriteV1();
@@ -45,6 +50,7 @@ public:
     void showReadString();
     void showStringLength();
     void stringOperation();
+    void rawstring();
 
     //overloaded operator
     operator int() const {
@@ -88,6 +94,8 @@ public:
     //
     //workersgroup
     void show_wg();
+
+    //vector
     
 public:
     static int version;
@@ -111,6 +119,14 @@ private:
     int32_t _last_num;
     RateLimiter _rate_limiter;
     CgalExplorer _cgal;    
+};
+
+class RapidJsonHelper {
+public:
+    RapidJsonHelper(void) {}    
+    virtual ~RapidJsonHelper(void) {}
+
+    static std::string ValueToJsonStr(const rapidjson::Value& val); 
 };
 
 } //end namespace snow;

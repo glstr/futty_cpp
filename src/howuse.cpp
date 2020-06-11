@@ -14,10 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-
 #include "utils.h"
 #include "namespace_use.h"
 
@@ -148,12 +144,23 @@ void HowUser::showUsageRapidjson() {
     Value& s = d["stars"];
     s.SetInt(s.GetInt() + 1);
     // 3. 把 DOM 转换（stringify）成 JSON。
-    StringBuffer buffer;
-    Writer<StringBuffer> writer(buffer);
-    d.Accept(writer);
-    // Output {"project":"rapidjson","stars":11}
-    std::cout << buffer.GetString() << std::endl;
+    std::string res = RapidJsonHelper::ValueToJsonStr(d);
+    std::cout << res << std::endl;
     return;
+}
+
+void HowUser::rapidJsonHelperUsage() {
+    const char* json = "{\"hello\": \"world\", \"data\": {\"type\": 0}}";
+    Document d;
+    d.Parse(json); 
+    const char* key = "data";
+    if (d.HasMember(key) && d[key].IsObject()) {
+        Document sub_doc;
+        sub_doc.SetObject();
+
+        std::string res = RapidJsonHelper::ValueToJsonStr(d[key]);
+        std::cout << res << std::endl;
+    }
 }
 
 void HowUser::showReadAndWriteV1() {
@@ -284,6 +291,11 @@ void HowUser::stringOperation() {
     }
 }
 
+void HowUser::rawstring() {
+    std::string example = R"({"error_code": 0, "error_msg": "success", "res": []})";
+    printf("exmaple:%s", example.c_str());
+}
+
 void HowUser::showAsm() {
     //__asm__("movl %esp, orig_stack_pointer");    
 }
@@ -410,5 +422,14 @@ void HowUser::show_wg() {
     }
 }
 
+//Rapidjsonhelper
+//It is used to simplify usage of rapidjson
+std::string RapidJsonHelper::ValueToJsonStr(const Value& val) {
+    StringBuffer buffer;
+    Writer <StringBuffer> writer(buffer);   
+    val.Accept(writer);
+    return std::string(buffer.GetString());
+}
+    
 
 } //end namespace snow;

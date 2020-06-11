@@ -8,6 +8,9 @@ public:
 
     void show_func_wrapper();
     void show_bind();
+
+    //min_max 
+    void show_minmax();
 private:
     int _add(int a, int b);
 };
