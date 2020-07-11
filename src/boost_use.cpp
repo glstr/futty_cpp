@@ -26,9 +26,9 @@ void BoostUse::show_bind() {
     cout << "res:" << res << endl;
 }
 
-void BoostUse::show_shared_ptr() {
-    
-}
+//void BoostUse::show_shared_ptr() {
+//    
+//}
 
 int BoostUse::_add(int a, int b) {
     return a + b;
